@@ -84,12 +84,12 @@ love <- read_csv("https://raw.githubusercontent.com/amynic/love-island-workshop/
 
 # 2a) First, an example: Does age help your chances of winning? Because of the
 # limited sample size, let "win" be anyone who got third place, anyone who was a
-# runner-up, and anyone who won the show.
+# runner up, and anyone who won the show.
 
 # PLOT:
 love %>%
   mutate(
-    win = if_else(outcome %in% c("winner", "runner-up", "third place"), 1, 0)
+    win = if_else(outcome %in% c("winner", "runner up", "third place"), 1, 0)
   ) %>%
   ggplot(aes(x = age, y = win)) +
   geom_jitter(height = 0.1) +
@@ -110,21 +110,25 @@ love %>%
 
 # MODEL:
 love %>%
-  mutate(win = outcome %in% c("winner", "runner-up", "third place")) %>%
+  mutate(
+    win = if_else(outcome %in% c("winner", "runner up", "third place"), 1, 0)
+  ) %>%
   lm(win ~ age, data = .) %>%
   broom::tidy()
 
 # INTERPRETATION:
 # The estimated probability of getting third place or above if you're zero years
-# old is 0.0606. For every year older, you gain .00272 in probability you'll win,
-# but that estimate is not statistically significant: its p-value is .831, which
-# is a far cry from the p-value of .05 we'd consider significant at the 5% level.
+# old is -.493 (one issue with the linear probability model is that it can estimate
+# probabilities less than 0 and greater than 1). For every year older, you gain
+# .0288 in probability that you'll win, and with a p-value of .0539, that is
+# statistically significant at the 10% level but not at the 5% level (it is
+# less than .10 but not less than .05).
 
-# 2b) Does "day_joined" help your chances of winning?
+# 2b) Does having a low "day_joined" help your chances of winning?
 
 # PLOT:
 love %>%
-  mutate(win = if_else(outcome %in% c("winner", "runner-up", "third place"), 1, 0)) %>%
+  mutate(win = if_else(outcome %in% c("winner", "runner up", "third place"), 1, 0)) %>%
   ggplot(aes(x = day_joined, y = win)) +
   geom_jitter(height = 0.1) +
   geom_smooth(method = lm, se = FALSE)
@@ -141,7 +145,7 @@ love %>%
 # PLOT:
 love %>%
   mutate(
-    win = if_else(outcome %in% c("winner", "runner-up", "third place"), 1, 0),
+    win = if_else(outcome %in% c("winner", "runner up", "third place"), 1, 0),
     model = if_else(str_detect(profession, "model"), 1, 0)
   ) %>%
   ggplot(aes(x = model, y = win)) +
