@@ -82,7 +82,7 @@ love <- read_csv("https://raw.githubusercontent.com/amynic/love-island-workshop/
 # and give both an interpretation and explain the statistical significance of
 # beta_1.
 
-# 3a) First, an example: Does age help your chances of winning? Because of the
+# 2a) First, an example: Does age help your chances of winning? Because of the
 # limited sample size, let "win" be anyone who got third place, anyone who was a
 # runner-up, and anyone who won the show.
 
@@ -120,7 +120,7 @@ love %>%
 # but that estimate is not statistically significant: its p-value is .831, which
 # is a far cry from the p-value of .05 we'd consider significant at the 5% level.
 
-# 3b) Does "day_joined" help your chances of winning?
+# 2b) Does "day_joined" help your chances of winning?
 
 # PLOT:
 love %>%
@@ -136,7 +136,7 @@ love %>%
 # __
 
 
-# 3c) Does being a model hurt your chances of winning?
+# 2c) Does being a model hurt your chances of winning?
 
 # PLOT:
 love %>%
